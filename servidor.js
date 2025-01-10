@@ -13,12 +13,27 @@ routes(app)
 
 // Inicia o servidor na porta 3000
 app.listen(PORT, () => {
-  console.log(`Rodando na porta ${PORT}`);
-});
+  console.log(`Rodando na porta ${PORT}`);   
 
-const renderItem = ({ item }) => (
+           const App = () => {
+  // Lista de imagens locais
+  const images = [
+    { id: '1', origem: 'local', URL: require('./assets/localImage1.jpg') },
+    { id: '2', origem: 'local', URL: require('./assets/localImage2.jpg') },
+    { id: '3', origem: 'local', URL: require('./assets/localImage3.jpg') },
+    { id: '4', origem: 'local', URL: require('./assets/localImage4.jpg') },
+    { id: '5', origem: 'local', URL: require('./assets/localImage5.jpg') },
+    { id: '6', origem: 'local', URL: require('./assets/localImage6.jpg') },
+    { id: '7', origem: 'local', URL: require('./assets/localImage7.jpg') },
+    { id: '8', origem: 'local', URL: require('./assets/localImage8.jpg') },
+    { id: '9', origem: 'local', URL: require('./assets/localImage9.jpg') },
+    { id: '10', origem: 'local', URL: require('./assets/localImage10.jpg') },
+  ];
+
+  // Renderizador de itens
+  const renderItem = ({ item }) => (
     <Image
-      source={item.origem === 'local' ? item.URL : { uri: item.URL }}
+      source={item.URL}
       style={styles.image}
     />
   );
@@ -29,93 +44,22 @@ const renderItem = ({ item }) => (
         data={images}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-import { useState } from 'react';
-import {  View,  Text,  TextInput,  TouchableOpacity,  FlatList,  StyleSheet, Button} from 'react-native';
-
-const App = () => {
-  const [item, setItem] = useState('');
-  const [list, setList] = useState([]);
-
-  const addItem = () => {
-    if (item.trim() !== '') {
-      setList([...list, { id: Date.now().toString(), value: item }]);
-      setItem('');
-    }
-  };
-
-  const removeItem = (id) => {
-    setList(list.filter((listItem) => listItem.id !== id));
-  };
-
-  return (
-    <View style={styles.container}>
-      <View style={{flexDirection: "row", width:"100%"}}>
-        <TextInput
-          placeholder="Digite um item"
-          value={item}
-          onChangeText={setItem}
-          style={styles.input}
-        />
-        <TouchableOpacity onPress={addItem}>
-          <Text style={styles.botao}>Adicionar</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={list}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.listaItem}>
-            <Text style={styles.textItem}>{item.value} - </Text>
-            <TouchableOpacity onPress={() => removeItem(item.id)}>
-              <Text style={{ color: 'red' }}>Remover</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        style={{ marginTop: 20, width: '100%' }}
+        numColumns={3} // Define 3 imagens por linha
       />
     </View>
   );
 };
 
+// Estilos
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f0f0f0',
-    justifyContent: 'center', 
-    alignItems: 'center',
-    padding: 20,
     flex: 1,
-
-  },
-  input: {
-    width: "100%",
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 5,
     padding: 10,
-    flex: 1,
+    backgroundColor: '#fff',
   },
-  botao: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "blue",
-    color: "white",
-    padding: 10,
-    borderRadius: 5,
-  },
-  listaItem: {
-    flexDirection: "row",
-    padding: 10,
-    marginVertical: 10,
-    backgroundColor: "#D3D3D3",
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#484D50",
-    width: "340px"
-  },
-  textItem: {
-    fontSize: "30",
-    fontWeight: "bold"
+  image: {
+    width: 100,
+    height: 100,
+    margin: 5,
   },
 });
-
-export default App;
