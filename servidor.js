@@ -15,3 +15,17 @@ routes(app)
 app.listen(PORT, () => {
   console.log(`Rodando na porta ${PORT}`);
 });
+
+const renderItem = ({ item }) => (
+    <Image
+      source={item.origem === 'local' ? item.URL : { uri: item.URL }}
+      style={styles.image}
+    />
+  );
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={images}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
